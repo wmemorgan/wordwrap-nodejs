@@ -9,10 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        run: yarn
-        run: yarn test
       - uses: akhileshns/heroku-deploy@v3.7.8
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "wme-wordwrap-api-nodejs"
           heroku_email: "wil.me.morgan@gmail.com"
+      - run: yarn test
