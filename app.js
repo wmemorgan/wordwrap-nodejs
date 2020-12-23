@@ -1,33 +1,31 @@
-function wordWrap(str, columnLength) {
-    if (!str || str.length == 0 || str.length < columnLength) return str
+function wordWrap(str, lineWidth) {
+    if (!str || str.length == 0 || str.length < lineWidth) return str
 
-    const updatedStr = splitString(str, columnLength)
-    return updatedStr
+    const formattedStr = splitString(str, lineWidth)
+    return formattedStr
 }
 
-function splitString(str, n, newStr = "") {
+function splitString(str, lineWidth, updatedStr="") {
     // Base case
-    if (str.length == 0) return newStr
+    if (str.length === 0) return updatedStr
 
-    let endIndex = str.length > n ? n : str.length
-    newStr += str.substring(0, endIndex) + "\n"
-    nextStr = str.substring(endIndex)
-    
-    if (nextStr) {
-        str = nextStr[0].replace(" ", "") + nextStr.substring(1)
+    // Slice string
+    let endIndex = str.length < lineWidth ? str.length : lineWidth
+    updatedStr += str.substring(0, endIndex) + "\n"
+    remainingStr = !str.substring(endIndex) ? "" : str.substring(endIndex)
+    if (remainingStr) {
+        str = remainingStr[0].replace(" ", "") + remainingStr.substring(1)
     } else {
-        str = nextStr
+        str = ""
     }
 
-    return splitString(str, n, newStr)
+    return splitString(str, lineWidth, updatedStr)
 }
 
 myStr = "Heeeellllllooooo, George. How are you feeling today?"
-columnLength = 20
+lineWidth = 20
 
-// console.log(splitString(myStr, columnLength))
-console.log(wordWrap(myStr, columnLength))
-// // wordWrap(myStr, columnLength)
+console.log(wordWrap(myStr, lineWidth))
 
 /* TESTS */
 let desc = "First line test"
@@ -37,16 +35,15 @@ let actual = wordWrap(inputString, inputColumnLength).split("\n")[0]
 let expected = inputString.substring(0, inputColumnLength)
 assertEqual(actual, expected, desc)
 
-// desc = "Last line test"
-// actual = wordWrap(inputString, inputColumnLength).split("\n")[wordWrap(inputString, inputColumnLength).split("\n").length - 1]
-// console.log(wordWrap(inputString, inputColumnLength).split("\n"))
-// expected = "you today? "
-// assertEqual(actual, expected, desc)
+desc = "Last line of text"
+actual = wordWrap(inputString, inputColumnLength).split("\n")[wordWrap(inputString, inputColumnLength).split("\n").length - 2]
+expected = "ay?"
+assertEqual(actual, expected, desc)
 
 desc = "String length is less than column length"
 inputString = "Hello there!"
-columnLength = 20
-actual = wordWrap(inputString, columnLength)
+lineWidth = 20
+actual = wordWrap(inputString, lineWidth)
 expected = "Hello there!"
 assertEqual(actual, expected, desc)
 
