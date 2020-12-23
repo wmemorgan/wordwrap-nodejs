@@ -30,7 +30,7 @@ server.post("/api/wordwrap", dataValidation, async (req, res) => {
 		const data = wordWrap(str, lineWidth);
 		res.send(data);
 	} catch (err) {
-		res.status(500).send(err.message);
+		res.status(400).send({message: err.message});
 	}
 });
 

@@ -4,7 +4,10 @@
  * @param {integer} lineWidth - maximum line width
  */
 function wordWrap(str, lineWidth) {
+	// Exception handling
 	if (!str || str.length == 0 || str.length < lineWidth) return str;
+	else if (!Number.isInteger(lineWidth)) throw new Error("Invalid data type for line width");
+	else if (lineWidth <= 0) throw new Error("Invalid value for line width");
 
 	const formattedStr = splitString(str, lineWidth);
 	return formattedStr;
