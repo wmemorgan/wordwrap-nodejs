@@ -25,5 +25,10 @@ module.exports = {
 			"error",
 			"always"
 		]
-	}
+	},
+	"overrides": [
+		{
+			"excludedFiles": "*.spec.js"
+		}
+	]
 };
