@@ -1,35 +1,57 @@
 const wordWrap = require("./wordWrap");
 
-/* TESTS */
-let desc = "First line test";
-let inputString = "Hello, George. How are you today?"; 
-let lineWidth = 10;
-let actual = wordWrap(inputString, lineWidth).split("\n")[0];
-let expected = inputString.substring(0, lineWidth);
-assertEqual(actual, expected, desc);
+describe("WordWrap test suite", () => {
+	it("Test first line test", () => {
+		let inputString = "Hello, George. How are you today?"; 
+		let lineWidth = 10;
+		let actual = wordWrap(inputString, lineWidth).split("\n")[0];
+		let expected = inputString.substring(0, lineWidth);
 
-desc = "Last line of text";
-actual = wordWrap(inputString, lineWidth).split("\n")[wordWrap(inputString, lineWidth).split("\n").length - 2];
-expected = "ay?";
-assertEqual(actual, expected, desc);
+		expect(actual).toBe(expected);
+	});
+	it("Test last line of text", () => {
+		let inputString = "Hello, George. How are you today?"; 
+		let lineWidth = 10;
+		let actual = wordWrap(inputString, lineWidth).split("\n")[wordWrap(inputString, lineWidth).split("\n").length - 2];
+		let expected = "ay?";
 
-desc = "String length is less than column length";
-inputString = "Hello there!";
-lineWidth = 20;
-actual = wordWrap(inputString, lineWidth);
-expected = "Hello there!";
-assertEqual(actual, expected, desc);
+		expect(actual).toBe(expected);
+	});
 
-desc = "Empty string";
-inputString = "";
-actual = wordWrap(inputString, lineWidth);
-expected = "";
-assertEqual(actual, expected, desc);
+	it("Test string length is less than line width", () => {
+		let inputString = "Hello there!";
+		let lineWidth = 20;
+		let actual = wordWrap(inputString, lineWidth)
+		let expected = "Hello there!";
 
-function assertEqual(a, b, desc) {
-	if (a === b) {
-		console.log(`${desc}...PASS`);
-	} else {
-		console.log(`${desc}...FAIL: ${a} != ${b}`);
-	}
-}
+		expect(actual).toBe(expected);
+	});
+
+	it("Test empty string", () => {
+		let inputString = ""; 
+		let lineWidth = 10;
+		let actual = wordWrap(inputString, lineWidth)
+		let expected = "";
+
+		expect(actual).toBe(expected);
+	});
+
+	it("Test invalid data type for line width", () => {
+		let inputString = "Hello, George. How are you today?";
+		let lineWidth = "Hello";
+		expect(() => {
+			wordWrap(inputString, lineWidth);
+		}).toThrowError("Invalid data type for line width");
+	});
+
+
+	it("Test invalid data value for line width", () => {
+		let inputString = "Hello, George. How are you today?";
+		let lineWidth = -23;
+		expect(() => {
+			wordWrap(inputString, lineWidth);
+		}).toThrowError("Invalid value for line width");
+	});
+
+});
+
