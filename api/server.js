@@ -14,11 +14,17 @@ server.use(cors());
 server.use(express.json());
 server.use(logger("dev"));
 
+const { inputDataChecker, requiredData } = require("./dataValidation");
+
+// Define required fields
+const requiredDataFields = ["str", "lineWidth"];
+const dataValidation = requiredData(inputDataChecker, requiredDataFields);
+
 /**
  * Returns text formatted by wordWrap function
  * @return {object} formatted text
  */
-server.post("/api/wordwrap", async (req, res) => {
+server.post("/api/wordwrap", dataValidation, async (req, res) => {
 	const { str, lineWidth } = req.body;
 	try {
 		const data = wordWrap(str, lineWidth);
